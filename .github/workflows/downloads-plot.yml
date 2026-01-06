@@ -39,14 +39,25 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Add both outputs every run (plot is regenerated even if identical)
           git add -A data plots
 
-          # Only commit if something actually changed
           if git diff --cached --quiet; then
             echo "No changes to commit."
             exit 0
           fi
 
           git commit -m "Update gget downloads data + plot"
-          git push
+
+          # Keep branch up-to-date (handles concurrent updates) + retry push (handles transient GitHub failures)
+          for attempt in 1 2 3 4 5; do
+            echo "Push attempt $attempt..."
+            git pull --rebase origin main || true
+            if git push origin main; then
+              exit 0
+            fi
+            sleep $((attempt * 5))
+          done
+
+          echo "Push failed after retries."
+          exit 1
+
