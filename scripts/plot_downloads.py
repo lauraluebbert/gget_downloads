@@ -101,13 +101,14 @@ def last_n_days(series: pd.Series, days: int = 365) -> pd.Series:
 
 def plot_series(series: pd.Series, package: str, out_path: Path) -> None:
     fig, ax = plt.subplots(figsize=(12, 5))
-    ax.plot(series.index, series.values)
+    ax.plot(series.index, series.values, color="darkorange", lw=2)
 
     ax.set_title(f"Daily {package} downloads (pypistats) — last {len(series)} days")
     ax.set_xlabel("Date")
     ax.set_ylabel("Downloads")
     ax.grid(True, axis="y", color="lightgrey", linestyle="--", linewidth=1)
     ax.set_axisbelow(True)
+    ax.set_ylim(bottom=0)
 
     fig.tight_layout()
     out_path.parent.mkdir(parents=True, exist_ok=True)
