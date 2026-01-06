@@ -1,4 +1,4 @@
-# Daily gget downloads tracking (pypistats)
+# Daily gget downloads tracking
 
 This repository tracks **daily PyPI download counts for [gget](https://pachterlab.github.io/gget/)** using the
 [pypistats](https://pypistats.org) API.
