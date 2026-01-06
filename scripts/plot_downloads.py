@@ -106,9 +106,10 @@ def plot_series(
     fontsize: int = 12,
 ) -> None:
     text_color = "grey"
+    plot_color = "#fa8b59"
 
     fig, ax = plt.subplots(figsize=(12, 5))
-    ax.plot(series.index, series.values, color="#c71910", lw=2)
+    ax.plot(series.index, series.values, color=plot_color, lw=2)
 
     ax.set_title(
         f"Daily {package} downloads (pypistats) — last {len(series)} days",
