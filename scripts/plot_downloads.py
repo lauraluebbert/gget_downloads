@@ -112,7 +112,7 @@ def plot_series(series: pd.Series, package: str, out_path: Path) -> None:
 
     fig.tight_layout()
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(out_path, dpi=150)
+    fig.savefig(out_path, dpi=300, transparent=True, bbox_inches="tight")
     plt.close(fig)
 
 
