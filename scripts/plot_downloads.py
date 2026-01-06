@@ -108,7 +108,7 @@ def plot_series(
     text_color = "grey"
     plot_color = "#fa8b59"
 
-    fig, ax = plt.subplots(figsize=(12, 5))
+    fig, ax = plt.subplots(figsize=(12, 4))
     ax.plot(series.index, series.values, color=plot_color, lw=2)
 
     ax.set_title(
