@@ -104,18 +104,27 @@ def plot_series(
     out_path: Path,
     fontsize: int = 12,
 ) -> None:
+    text_color = "darkgrey"
+
     fig, ax = plt.subplots(figsize=(12, 5))
-    ax.plot(series.index, series.values, color="darkorange", lw=2)
+    ax.plot(series.index, series.values, color="#c71910", lw=2)
 
     ax.set_title(
         f"Daily {package} downloads (pypistats) — last {len(series)} days",
         fontsize=fontsize,
+        color=text_color,
     )
-    ax.set_xlabel("Date", fontsize=fontsize)
-    ax.set_ylabel("Downloads", fontsize=fontsize)
+    ax.set_xlabel("Date", fontsize=fontsize, color=text_color)
+    ax.set_ylabel("Downloads", fontsize=fontsize, color=text_color)
 
-    ax.tick_params(axis="both", labelsize=fontsize)
+    # Tick labels
+    ax.tick_params(axis="both", labelsize=fontsize, colors=text_color)
 
+    # Axes spines
+    for spine in ax.spines.values():
+        spine.set_color(text_color)
+
+    # Grid
     ax.grid(True, axis="y", color="lightgrey", linestyle="--", linewidth=1)
     ax.set_axisbelow(True)
     ax.set_ylim(bottom=0)
