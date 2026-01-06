@@ -10,6 +10,9 @@ over the **last 365 days**, using the [pypistats.org](https://pypistats.org) API
 
 Automatically runs daily via GitHub Actions.
 
+## Repository structure
+
+```text
 .
 ├── .github/
 │   └── workflows/
@@ -23,4 +26,4 @@ Automatically runs daily via GitHub Actions.
 ├── requirements.txt
 ├── .gitignore
 └── README.md
-
+```
