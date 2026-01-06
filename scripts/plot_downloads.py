@@ -6,6 +6,7 @@ from datetime import date, timedelta
 import matplotlib
 matplotlib.use("Agg")  # headless for CI
 import matplotlib.pyplot as plt
+from matplotlib.ticker import FuncFormatter
 import pandas as pd
 import requests
 
@@ -104,7 +105,7 @@ def plot_series(
     out_path: Path,
     fontsize: int = 12,
 ) -> None:
-    text_color = "darkgrey"
+    text_color = "grey"
 
     fig, ax = plt.subplots(figsize=(12, 5))
     ax.plot(series.index, series.values, color="#c71910", lw=2)
@@ -116,18 +117,19 @@ def plot_series(
     )
     ax.set_xlabel("Date", fontsize=fontsize, color=text_color)
     ax.set_ylabel("Downloads", fontsize=fontsize, color=text_color)
-
-    # Tick labels
+    ax.set_ylim(bottom=0)
     ax.tick_params(axis="both", labelsize=fontsize, colors=text_color)
 
-    # Axes spines
+    # Thousands separator on y-axis
+    ax.yaxis.set_major_formatter(FuncFormatter(lambda x, _: f"{int(x):,}"))
+
+    # Set axes spine color
     for spine in ax.spines.values():
         spine.set_color(text_color)
 
     # Grid
-    ax.grid(True, axis="y", color="lightgrey", linestyle="--", linewidth=1)
+    ax.grid(True, axis="y", color=text_color, linestyle="--", linewidth=0.5)
     ax.set_axisbelow(True)
-    ax.set_ylim(bottom=0)
 
     fig.tight_layout()
     out_path.parent.mkdir(parents=True, exist_ok=True)
