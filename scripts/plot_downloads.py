@@ -98,14 +98,24 @@ def last_n_days(series: pd.Series, days: int = 365) -> pd.Series:
     out = series.loc[(series.index >= start) & (series.index <= end)]
     return out
 
-
-def plot_series(series: pd.Series, package: str, out_path: Path) -> None:
+def plot_series(
+    series: pd.Series,
+    package: str,
+    out_path: Path,
+    fontsize: int = 12,
+) -> None:
     fig, ax = plt.subplots(figsize=(12, 5))
     ax.plot(series.index, series.values, color="darkorange", lw=2)
 
-    ax.set_title(f"Daily {package} downloads (pypistats) — last {len(series)} days")
-    ax.set_xlabel("Date")
-    ax.set_ylabel("Downloads")
+    ax.set_title(
+        f"Daily {package} downloads (pypistats) — last {len(series)} days",
+        fontsize=fontsize,
+    )
+    ax.set_xlabel("Date", fontsize=fontsize)
+    ax.set_ylabel("Downloads", fontsize=fontsize)
+
+    ax.tick_params(axis="both", labelsize=fontsize)
+
     ax.grid(True, axis="y", color="lightgrey", linestyle="--", linewidth=1)
     ax.set_axisbelow(True)
     ax.set_ylim(bottom=0)
@@ -114,7 +124,6 @@ def plot_series(series: pd.Series, package: str, out_path: Path) -> None:
     out_path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(out_path, dpi=300, transparent=True, bbox_inches="tight")
     plt.close(fig)
-
 
 def main() -> None:
     parser = argparse.ArgumentParser()
