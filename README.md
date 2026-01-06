@@ -9,3 +9,18 @@ over the **last 365 days**, using the [pypistats.org](https://pypistats.org) API
 - `plots/downloads_gget.png`
 
 Automatically runs daily via GitHub Actions.
+
+.
+├── .github/
+│   └── workflows/
+│       └── downloads-plot.yml
+├── scripts/
+│   └── plot_downloads.py
+├── plots/
+│   └── .gitkeep
+├── data/
+│   └── .gitkeep
+├── requirements.txt
+├── .gitignore
+└── README.md
+
