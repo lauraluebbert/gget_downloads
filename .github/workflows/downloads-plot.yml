@@ -26,11 +26,26 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Generate plot
+      - name: Generate plots
         run: |
           python scripts/plot_downloads.py \
             --package gget \
             --out plots/downloads_gget.png
+
+          python scripts/plot_categorical_downloads.py \
+            --package gget \
+            --endpoint python_major \
+            --out plots/downloads_gget_python_major.png
+
+          python scripts/plot_categorical_downloads.py \
+            --package gget \
+            --endpoint python_minor \
+            --out plots/downloads_gget_python_minor.png
+
+          python scripts/plot_categorical_downloads.py \
+            --package gget \
+            --endpoint system \
+            --out plots/downloads_gget_system.png
 
       - name: Commit updated data + plot (if changed)
         run: |

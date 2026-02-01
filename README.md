@@ -16,8 +16,20 @@ time series going forward.
 
 ![gget PyPI downloads over the last year](plots/downloads_gget.png)
 
+### Downloads by Python Major Version
+![gget downloads by Python major version](plots/downloads_gget_python_major.png)
+
+### Downloads by Python Minor Version
+![gget downloads by Python minor version](plots/downloads_gget_python_minor.png)
+
+### Downloads by Operating System
+![gget downloads by operating system](plots/downloads_gget_system.png)
+
 ## Output
 - `plots/downloads_gget.png`
+- `plots/downloads_gget_python_major.png`
+- `plots/downloads_gget_python_minor.png`
+- `plots/downloads_gget_system.png`
 
 Automatically runs daily via GitHub Actions.
 
@@ -29,7 +41,8 @@ Automatically runs daily via GitHub Actions.
 │   └── workflows/
 │       └── downloads-plot.yml
 ├── scripts/
-│   └── plot_downloads.py
+│   ├── plot_downloads.py
+│   └── plot_categorical_downloads.py
 ├── plots/
 │   └── .gitkeep
 ├── data/
