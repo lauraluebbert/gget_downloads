@@ -13,7 +13,7 @@ import requests
 
 def fetch_pypistats_categorical(package: str, endpoint: str) -> pd.DataFrame:
     """
-    Fetch categorical pypistats data (python_major, python_minor, or system).
+    Fetch categorical pypistats data (python_major, python_minor, system, or overall).
     Returns DataFrame with columns: date, category, downloads
     """
     url = f"https://pypistats.org/api/packages/{package}/{endpoint}"
@@ -153,7 +153,7 @@ def plot_categorical_series(
         ax.plot(pivot.index, pivot[col], color=colors[i], lw=1.5, label=col)
 
     # Format endpoint name for title
-    endpoint_display = endpoint.replace("_", " ")
+    endpoint_display = "mirror status" if endpoint == "overall" else endpoint.replace("_", " ")
     ax.set_title(
         f"Daily {package} downloads by {endpoint_display} — last {len(pivot)} days",
         fontsize=fontsize,
@@ -190,7 +190,7 @@ def main() -> None:
     parser.add_argument(
         "--endpoint",
         required=True,
-        choices=["python_major", "python_minor", "system"],
+        choices=["python_major", "python_minor", "system", "overall"],
         help="pypistats categorical endpoint",
     )
     parser.add_argument("--out", required=True, help="Output PNG path")

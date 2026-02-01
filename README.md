@@ -25,11 +25,15 @@ time series going forward.
 ### Downloads by Operating System
 ![gget downloads by operating system](plots/downloads_gget_system.png)
 
+### Downloads by Mirror Status
+![gget downloads by mirror status](plots/downloads_gget_overall.png)
+
 ## Output
 - `plots/downloads_gget.png`
 - `plots/downloads_gget_python_major.png`
 - `plots/downloads_gget_python_minor.png`
 - `plots/downloads_gget_system.png`
+- `plots/downloads_gget_overall.png`
 
 Automatically runs daily via GitHub Actions.
 

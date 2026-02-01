@@ -47,6 +47,11 @@ jobs:
             --endpoint system \
             --out plots/downloads_gget_system.png
 
+          python scripts/plot_categorical_downloads.py \
+            --package gget \
+            --endpoint overall \
+            --out plots/downloads_gget_overall.png
+
       - name: Commit updated data + plot (if changed)
         run: |
           set -euo pipefail
