@@ -16,3 +16,4 @@ breakdowns:
   - python_minor # Downloads by Python minor version (3.8, 3.9, etc.)
   - system       # Downloads by OS (Linux, Windows, Darwin)
   - country      # Downloads by country code
+  - mirrors      # Downloads with/without mirrors

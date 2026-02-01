@@ -29,6 +29,9 @@ Historical data is available from February 22, 2022 (gget's first release).
 ### Downloads by country (top 10)
 ![gget downloads by country](plots/downloads_gget_country.png)
 
+### Downloads with/without mirrors
+![gget downloads by mirror status](plots/downloads_gget_mirrors.png)
+
 ## Configuration
 
 Edit `config.yaml` to customize:
@@ -44,6 +47,7 @@ breakdowns:
   - python_minor
   - system
   - country
+  - mirrors
 ```
 
 ## Output files
@@ -55,6 +59,7 @@ breakdowns:
 - `plots/downloads_gget_python_minor.png` - By Python minor version
 - `plots/downloads_gget_system.png` - By operating system
 - `plots/downloads_gget_country.png` - By country (top 10)
+- `plots/downloads_gget_mirrors.png` - With/without mirrors
 
 **Data:**
 - `data/bigquery_gget_*.csv` - Raw download data from BigQuery

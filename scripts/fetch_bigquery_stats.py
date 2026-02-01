@@ -130,6 +130,35 @@ def get_breakdown_query(breakdown: str) -> tuple[str, list[str]]:
             """,
             ["date", "country_code", "downloads"],
         ),
+        "mirrors": (
+            """
+            SELECT
+                DATE(timestamp) as date,
+                'with_mirrors' as category,
+                COUNT(*) as downloads
+            FROM `bigquery-public-data.pypi.file_downloads`
+            WHERE project = @package
+                AND DATE(timestamp) >= @start_date
+                AND DATE(timestamp) <= @end_date
+            GROUP BY date
+
+            UNION ALL
+
+            SELECT
+                DATE(timestamp) as date,
+                'without_mirrors' as category,
+                COUNT(*) as downloads
+            FROM `bigquery-public-data.pypi.file_downloads`
+            WHERE project = @package
+                AND DATE(timestamp) >= @start_date
+                AND DATE(timestamp) <= @end_date
+                AND country_code IS NOT NULL
+            GROUP BY date
+
+            ORDER BY date, category
+            """,
+            ["date", "category", "downloads"],
+        ),
     }
     return queries[breakdown]
 
