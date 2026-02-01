@@ -167,6 +167,48 @@ def plot_categorical(
     plt.close(fig)
 
 
+def plot_alltime(df: pd.DataFrame, package: str, out_path: Path, fontsize: int = 12) -> None:
+    """Plot all-time daily download totals (full history)."""
+    text_color = "grey"
+    plot_color = "#fa8b59"
+
+    if df.empty:
+        print("  Warning: No data to plot for all-time")
+        return
+
+    df = df.sort_values("date")
+    series = df.set_index("date")["downloads"]
+
+    # Calculate total downloads
+    total = series.sum()
+    start_date = series.index.min().strftime("%b %d, %Y")
+    end_date = series.index.max().strftime("%b %d, %Y")
+
+    fig, ax = plt.subplots(figsize=(12, 4))
+    ax.plot(series.index, series.values, color=plot_color, lw=2)
+
+    ax.set_title(
+        f"Daily {package} downloads — all time ({start_date} to {end_date}) — {total:,} total",
+        fontsize=fontsize,
+        color=text_color,
+    )
+    ax.set_xlabel("Date", fontsize=fontsize, color=text_color)
+    ax.set_ylabel("Downloads", fontsize=fontsize, color=text_color)
+    ax.set_ylim(bottom=0)
+    ax.tick_params(axis="both", labelsize=fontsize, colors=text_color)
+    ax.yaxis.set_major_formatter(FuncFormatter(lambda x, _: f"{int(x):,}"))
+
+    for spine in ax.spines.values():
+        spine.set_color(text_color)
+
+    ax.grid(True, axis="y", color=text_color, linestyle="--", linewidth=0.5)
+    ax.set_axisbelow(True)
+
+    fig.tight_layout()
+    fig.savefig(out_path, dpi=300, transparent=True, bbox_inches="tight")
+    plt.close(fig)
+
+
 def plot_country(
     df: pd.DataFrame,
     package: str,
@@ -278,6 +320,20 @@ def main() -> None:
             plot_categorical(df, package, breakdown, out_path)
 
         print(f"  Saved {out_path}")
+
+    # Always generate all-time plot (ignores plot_days config)
+    print("\nProcessing: all-time")
+    daily_csv = DATA_DIR / f"bigquery_{package}_daily.csv"
+    if daily_csv.exists():
+        df = load_csv_data(daily_csv)
+        if not df.empty:
+            out_path = PLOTS_DIR / f"downloads_{package}_alltime.png"
+            plot_alltime(df, package, out_path)
+            print(f"  Saved {out_path}")
+        else:
+            print("  Warning: No data for all-time plot")
+    else:
+        print(f"  Warning: {daily_csv} not found, skipping all-time plot")
 
     print("\nDone!")
 
