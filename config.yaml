@@ -1,0 +1,18 @@
+# gget downloads tracking configuration
+
+# PyPI package name to track
+package: gget
+
+# Start date for historical data (gget's first release)
+start_date: "2022-02-22"
+
+# Number of days to show in plots (default: 365)
+plot_days: 365
+
+# Breakdown types to track
+breakdowns:
+  - daily        # Total downloads per day
+  - python_major # Downloads by Python major version (2, 3)
+  - python_minor # Downloads by Python minor version (3.8, 3.9, etc.)
+  - system       # Downloads by OS (Linux, Windows, Darwin)
+  - country      # Downloads by country code

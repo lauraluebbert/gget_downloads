@@ -1,10 +1,16 @@
-name: Daily pypistats downloads plot
+name: Weekly BigQuery downloads update
 
 on:
   schedule:
-    # Runs every day at 23:55 UTC
-    - cron: "55 23 * * *"
+    # Runs every Sunday at 23:55 UTC
+    - cron: "55 23 * * 0"
   workflow_dispatch:
+    inputs:
+      initial_fetch:
+        description: 'Run initial historical fetch (from 2022-02-22)'
+        required: false
+        default: 'false'
+        type: boolean
 
 permissions:
   contents: write
@@ -33,37 +39,20 @@ jobs:
           workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
 
-      - name: Generate plots
+      - name: Fetch download stats from BigQuery
         run: |
-          python scripts/plot_downloads.py \
-            --package gget \
-            --out plots/downloads_gget.png
+          if [ "${{ github.event.inputs.initial_fetch }}" == "true" ]; then
+            echo "Running initial historical fetch..."
+            python scripts/fetch_bigquery_stats.py --initial
+          else
+            echo "Running weekly incremental update..."
+            python scripts/fetch_bigquery_stats.py --days 10
+          fi
 
-          python scripts/plot_categorical_downloads.py \
-            --package gget \
-            --endpoint python_major \
-            --out plots/downloads_gget_python_major.png
+      - name: Generate plots
+        run: python scripts/generate_plots.py
 
-          python scripts/plot_categorical_downloads.py \
-            --package gget \
-            --endpoint python_minor \
-            --out plots/downloads_gget_python_minor.png
-
-          python scripts/plot_categorical_downloads.py \
-            --package gget \
-            --endpoint system \
-            --out plots/downloads_gget_system.png
-
-          python scripts/plot_categorical_downloads.py \
-            --package gget \
-            --endpoint overall \
-            --out plots/downloads_gget_overall.png
-
-          python scripts/plot_bigquery_country.py \
-            --package gget \
-            --out plots/downloads_gget_country.png
-
-      - name: Commit updated data + plot (if changed)
+      - name: Commit updated data + plots (if changed)
         run: |
           set -euo pipefail
 
@@ -77,9 +66,9 @@ jobs:
             exit 0
           fi
 
-          git commit -m "Update gget downloads data + plot"
+          git commit -m "Update gget downloads data + plots"
 
-          # Keep branch up-to-date (handles concurrent updates) + retry push (handles transient GitHub failures)
+          # Keep branch up-to-date (handles concurrent updates) + retry push
           for attempt in 1 2 3 4 5; do
             echo "Push attempt $attempt..."
             git pull --rebase origin main || true
@@ -91,4 +80,3 @@ jobs:
 
           echo "Push failed after retries."
           exit 1
-
