@@ -152,7 +152,7 @@ def get_breakdown_query(breakdown: str) -> tuple[str, list[str]]:
             WHERE project = @package
                 AND DATE(timestamp) >= @start_date
                 AND DATE(timestamp) <= @end_date
-                AND country_code IS NOT NULL
+                AND details.system.name IS NOT NULL
             GROUP BY date
 
             ORDER BY date, category
