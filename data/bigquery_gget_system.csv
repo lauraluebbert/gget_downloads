@@ -4881,7 +4881,6 @@ date,category,downloads
 2026-01-22,Linux,478
 2026-01-22,Windows,25
 2026-01-22,nan,2142
-2026-01-22,null,2142
 2026-01-23,Darwin,22
 2026-01-23,Linux,517
 2026-01-23,Windows,20
@@ -4927,3 +4926,7 @@ date,category,downloads
 2026-01-31,Windows,5
 2026-01-31,nan,1028
 2026-01-31,null,1028
+2026-02-01,Darwin,22
+2026-02-01,Linux,321
+2026-02-01,Windows,8
+2026-02-01,null,1577
