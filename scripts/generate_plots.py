@@ -81,6 +81,7 @@ def plot_daily(df: pd.DataFrame, package: str, out_path: Path, fontsize: int = 1
     ax.set_xlabel("Date", fontsize=fontsize, color=text_color)
     ax.set_ylabel("Downloads", fontsize=fontsize, color=text_color)
     ax.set_ylim(bottom=0)
+    ax.margins(x=0)
     ax.tick_params(axis="both", labelsize=fontsize, colors=text_color)
     ax.yaxis.set_major_formatter(FuncFormatter(lambda x, _: f"{int(x):,}"))
 
@@ -152,6 +153,7 @@ def plot_categorical(
     ax.set_xlabel("Date", fontsize=fontsize, color=text_color)
     ax.set_ylabel("Downloads", fontsize=fontsize, color=text_color)
     ax.set_ylim(bottom=0)
+    ax.margins(x=0)
     ax.tick_params(axis="both", labelsize=fontsize, colors=text_color)
     ax.yaxis.set_major_formatter(FuncFormatter(lambda x, _: f"{int(x):,}"))
 
@@ -195,6 +197,7 @@ def plot_alltime(df: pd.DataFrame, package: str, out_path: Path, fontsize: int =
     ax.set_xlabel("Date", fontsize=fontsize, color=text_color)
     ax.set_ylabel("Downloads", fontsize=fontsize, color=text_color)
     ax.set_ylim(bottom=0)
+    ax.margins(x=0)
     ax.tick_params(axis="both", labelsize=fontsize, colors=text_color)
     ax.yaxis.set_major_formatter(FuncFormatter(lambda x, _: f"{int(x):,}"))
 
@@ -255,6 +258,7 @@ def plot_country(
     ax.set_xlabel("Date", fontsize=fontsize, color=text_color)
     ax.set_ylabel("Downloads", fontsize=fontsize, color=text_color)
     ax.set_ylim(bottom=0)
+    ax.margins(x=0)
     ax.tick_params(axis="both", labelsize=fontsize, colors=text_color)
     ax.yaxis.set_major_formatter(FuncFormatter(lambda x, _: f"{int(x):,}"))
 
