@@ -212,6 +212,49 @@ def plot_alltime(df: pd.DataFrame, package: str, out_path: Path, fontsize: int =
     plt.close(fig)
 
 
+def plot_cumulative(df: pd.DataFrame, package: str, out_path: Path, fontsize: int = 12) -> None:
+    """Plot cumulative all-time downloads."""
+    text_color = "grey"
+    plot_color = "#fa8b59"
+
+    if df.empty:
+        print("  Warning: No data to plot for cumulative")
+        return
+
+    df = df.sort_values("date")
+    series = df.set_index("date")["downloads"].cumsum()
+
+    total = series.iloc[-1]
+    start_date = series.index.min().strftime("%b %d, %Y")
+    end_date = series.index.max().strftime("%b %d, %Y")
+
+    fig, ax = plt.subplots(figsize=(12, 4))
+    ax.fill_between(series.index, series.values, color=plot_color, alpha=0.3)
+    ax.plot(series.index, series.values, color=plot_color, lw=2)
+
+    ax.set_title(
+        f"Cumulative {package} downloads — {start_date} to {end_date} — {total:,} total",
+        fontsize=fontsize,
+        color=text_color,
+    )
+    ax.set_xlabel("Date", fontsize=fontsize, color=text_color)
+    ax.set_ylabel("Cumulative downloads", fontsize=fontsize, color=text_color)
+    ax.set_ylim(bottom=0)
+    ax.margins(x=0)
+    ax.tick_params(axis="both", labelsize=fontsize, colors=text_color)
+    ax.yaxis.set_major_formatter(FuncFormatter(lambda x, _: f"{int(x):,}"))
+
+    for spine in ax.spines.values():
+        spine.set_color(text_color)
+
+    ax.grid(True, axis="y", color=text_color, linestyle="--", linewidth=0.5)
+    ax.set_axisbelow(True)
+
+    fig.tight_layout()
+    fig.savefig(out_path, dpi=300, transparent=True, bbox_inches="tight")
+    plt.close(fig)
+
+
 def plot_country(
     df: pd.DataFrame,
     package: str,
@@ -334,10 +377,16 @@ def main() -> None:
             out_path = PLOTS_DIR / f"downloads_{package}_alltime.png"
             plot_alltime(df, package, out_path)
             print(f"  Saved {out_path}")
+
+            # Cumulative plot
+            print("\nProcessing: cumulative")
+            out_path = PLOTS_DIR / f"downloads_{package}_cumulative.png"
+            plot_cumulative(df, package, out_path)
+            print(f"  Saved {out_path}")
         else:
-            print("  Warning: No data for all-time plot")
+            print("  Warning: No data for all-time/cumulative plots")
     else:
-        print(f"  Warning: {daily_csv} not found, skipping all-time plot")
+        print(f"  Warning: {daily_csv} not found, skipping all-time/cumulative plots")
 
     print("\nDone!")
 

@@ -13,6 +13,10 @@ Historical data is available from February 22, 2022 (gget's first release).
 
 ![gget PyPI downloads all-time](plots/downloads_gget_alltime.png)
 
+## Cumulative all-time downloads
+
+![gget cumulative PyPI downloads](plots/downloads_gget_cumulative.png)
+
 ## Last 365 days
 
 ![gget PyPI downloads over the last year](plots/downloads_gget_daily.png)
@@ -54,6 +58,7 @@ breakdowns:
 
 **Plots:**
 - `plots/downloads_gget_alltime.png` - All-time daily downloads
+- `plots/downloads_gget_cumulative.png` - Cumulative all-time downloads
 - `plots/downloads_gget_daily.png` - Daily downloads (last N days)
 - `plots/downloads_gget_python_major.png` - By Python major version
 - `plots/downloads_gget_python_minor.png` - By Python minor version
